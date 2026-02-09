@@ -1,0 +1,329 @@
+:root {
+    --primary-blue: #6a9eff;
+    --secondary-blue: #a3c2ff;
+    --dark-blue: #3a7aff;
+    --text-color: #333;
+    --bg-light: #e8f0ff;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --border-light: #c0d9ff;
+    --canvas-bg: #fdfefe;
+    --glow-spread: 5px; /* Base glow spread */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top */
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header {
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px var(--shadow-light);
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid var(--border-light);
+}
+
+.header h1 {
+    font-size: 2.5em;
+    color: var(--dark-blue);
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.header h1 span {
+    display: inline-block;
+    animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}
+
+.header p {
+    font-size: 1.1em;
+    color: #555;
+    margin: 10px 0 0;
+    max-width: 600px;
+}
+
+.text-content {
+    flex: 2;
+    min-width: 300px; /* Ensure text content takes reasonable space */
+}
+
+.controls-panel {
+    flex: 1;
+    min-width: 280px; /* Ensure controls panel takes reasonable space */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align controls to the right */
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .header h1 {
+        font-size: 2em;
+    }
+    .header p {
+        font-size: 1em;
+    }
+    .controls-panel {
+        width: 100%;
+        align-items: center; /* Center controls on small screens */
+    }
+    .color-picker-section, .brush-size-section {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+.color-picker-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 30px); /* 6 colors per row */
+    gap: 8px;
+    background-color: #f0f8ff; /* Light background for the grid */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+}
+
+.color-box {
+    width: 30px;
+    height: 30px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.color-box:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.color-box.selected {
+    border-color: var(--dark-blue);
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px var(--secondary-blue), 0 0 10px rgba(0,0,0,0.2);
+}
+
+#customColorPicker {
+    width: 60px; /* Make it smaller */
+    height: 30px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
+    border-radius: 5px;
+    overflow: hidden; /* Hide default color input border */
+    box-shadow: 0 2px 5px var(--shadow-light);
+    transition: transform 0.2s ease;
+}
+
+#customColorPicker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+#customColorPicker::-webkit-color-swatch {
+    border: none;
+    border-radius: 5px; /* Make the swatch rounded */
+}
+
+#customColorPicker:hover {
+    transform: scale(1.05);
+}
+
+
+.brush-size-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f0f8ff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.brush-size-section label {
+    font-weight: 600;
+    color: var(--dark-blue);
+    white-space: nowrap; /* Prevent label from wrapping */
+}
+
+#brushSize {
+    width: 100px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: var(--secondary-blue);
+    border-radius: 5px;
+    outline: none;
+    transition: opacity .2s;
+}
+
+#brushSize::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--dark-blue);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#brushSize::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--dark-blue);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#brushSizeValue {
+    min-width: 20px;
+    text-align: right;
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+.control-button {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.control-button:hover {
+    background-color: var(--dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.whiteboard-area {
+    width: 100%;
+    min-height: 600px; /* Minimum height for canvas area */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--canvas-bg); /* Canvas background */
+    border-radius: 15px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05), 0 10px 30px var(--shadow-light);
+    overflow: hidden; /* Ensure drawing stays within bounds */
+    border: 1px solid var(--border-light);
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: transparent; /* Canvas itself is transparent, area background shows */
+    cursor: crosshair;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+    .container {
+        padding: 15px;
+    }
+    .header h1 {
+        font-size: 2.2em;
+    }
+    .header p {
+        font-size: 0.95em;
+    }
+    .controls-panel {
+        flex-direction: row; /* Controls in a row on smaller desktops */
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+    .color-picker-section, .brush-size-section, .control-button {
+        flex: 1 1 auto; /* Allow items to grow and shrink */
+        min-width: 140px; /* Minimum width before wrapping */
+        max-width: 48%; /* Adjust for spacing */
+    }
+    .color-picker-section {
+        align-items: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .header h1 {
+        font-size: 1.8em;
+        text-align: center;
+        width: 100%;
+    }
+    .header p {
+        font-size: 0.9em;
+        text-align: center;
+    }
+    .controls-panel {
+        flex-direction: column; /* Stack controls vertically on tiny screens */
+        align-items: center;
+        gap: 10px;
+    }
+    .color-picker-section, .brush-size-section, .control-button {
+        width: 90%; /* Take up more width */
+        max-width: none;
+    }
+    .color-grid {
+        grid-template-columns: repeat(4, 30px); /* Adjust grid for smaller screens */
+    }
+    .brush-size-section {
+        flex-direction: column;
+    }
+    #brushSize {
+        width: 80%;
+    }
+}
